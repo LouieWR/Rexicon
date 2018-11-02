@@ -3,77 +3,75 @@
 
 #include <memory>
 #include <vector>
+#include <iostream> // DELETE AFTER USE
 
-#define ADDCOMPONENT \
+#define ADDMODULE \
   std::shared_ptr<T> rtn = std::make_shared<T>(); \
-  rtn->entity = self; \
+  rtn->object = self; \
+  rtn->self = rtn; \
   rtn->began = false; \
-  components.push_back(rtn);
+  modules.push_back(rtn);
 
 namespace rexicon
 {
 
 class Core;
+class Scene;
 class Module;
+class Transform;
 
 class Object
 {
-	friend class Core;
+	friend class Scene;
 
-private:
+protected:
 
 	std::weak_ptr<Object> self;
 	std::weak_ptr<Core> core;
-	std::vector<std::shared_ptr<Module> > components;
-
-	void tick();
-	void display();
+	std::weak_ptr<Scene> scene;
+	std::vector<std::shared_ptr<Module> > modules;
+	std::shared_ptr<Transform> transform;
 
 public:
 
-	template <typename T>
-	std::shared_ptr<T> getComponent()
-	{
-		for (size_t i = 0; i < components.size(); i++)
-		{
-			std::shared_ptr<T> tst = std::dynamic_pointer_cast<T>(components.at(i));
+	virtual void Update();
+	virtual void Draw();
 
-			if (tst)
-			{
-				return tst;
-			}
-		}
-
-		throw std::exception();
-	}
+	void SetTransformModule();
+	std::shared_ptr<Transform> GetTransformModule() { return transform; }
 
 	template <typename T>
-	std::shared_ptr<T> addComponent()
+	std::shared_ptr<T> GetModule();
+
+	template <typename T>
+	std::shared_ptr<T> AddModule()
 	{
-		ADDCOMPONENT
-			rtn->onInit();
-			return rtn;
+		ADDMODULE
+		rtn->OnInit();
+		
+		return rtn;
 	}
 
 	template <typename T, typename A>
-	std::shared_ptr<T> addComponent(A a)
+	std::shared_ptr<T> AddModule(A a)
 	{
-		ADDCOMPONENT
-			rtn->onInit(a);
+		ADDMODULE
+		rtn->OnInit(a);
 
 		return rtn;
 	}
 
 	template <typename T, typename A, typename B>
-	std::shared_ptr<T> addComponent(A a, B b)
+	std::shared_ptr<T> AddModule(A a, B b)
 	{
-		ADDCOMPONENT
-			rtn->onInit(a, b);
+		ADDMODULE
+		rtn->OnInit(a, b);
 
 		return rtn;
 	}
 
-	std::shared_ptr<Core> getCore();
+	std::shared_ptr<Scene> GetScene();
+	std::shared_ptr<Core> GetCore();
 
 };
 

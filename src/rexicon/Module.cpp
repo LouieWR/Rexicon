@@ -6,19 +6,19 @@ namespace rexicon
 {
 
 	Module::~Module() { }
-	void Module::onInit() { }
-	void Module::onBegin() { }
-	void Module::onTick() { }
-	void Module::onDisplay() { }
+	void Module::OnInit() { }
+	void Module::OnBegin() { }
+	void Module::OnTick() { }
+	void Module::OnDisplay() { }
 
-	std::shared_ptr<Object> Module::getObject()
+	std::shared_ptr<Object> Module::GetObject()
 	{
-		return entity.lock();
+		return object.lock();
 	}
 
-	std::shared_ptr<Core> Module::getCore()
+	std::shared_ptr<Core> Module::GetCore()
 	{
-		return getObject()->getCore();
+		return GetObject()->GetCore();
 	}
 
 }

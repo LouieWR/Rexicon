@@ -1,37 +1,66 @@
-#include "Object.h"
+#include "Scene.h"
 
-#include "Module.h"
+#include "Object.h"
+#include "Camera.h"
+#include "Input.h"
 
 namespace rexicon
 {
 
-	std::shared_ptr<Core> Object::getCore()
+	void Scene::Update()
 	{
-		return core.lock();
-	}
-
-	void Object::tick()
-	{
-		for (std::vector<std::shared_ptr<Module> >::iterator it = components.begin();
-			it != components.end(); it++)
+		for (std::vector<std::shared_ptr<Object> >::iterator it = objects.begin();
+			it != objects.end(); it++)
 		{
-			if (!(*it)->began)
-			{
-				(*it)->onBegin();
-				(*it)->began = true;
-			}
-
-			(*it)->onTick();
+			(*it)->Update();
 		}
 	}
 
-	void Object::display()
+	void Scene::Draw()
 	{
-		for (std::vector<std::shared_ptr<Module> >::iterator it = components.begin();
-			it != components.end(); it++)
+		for (std::vector<std::shared_ptr<Object> >::iterator it = objects.begin();
+			it != objects.end(); it++)
 		{
-			(*it)->onDisplay();
+			(*it)->Draw();
 		}
 	}
 
+	std::shared_ptr<Object> Scene::AddObject()
+	{
+		std::shared_ptr<Object> rtn = std::make_shared<Object>();
+		rtn->self = rtn;
+		rtn->scene = self;
+		objects.push_back(rtn);
+
+		return rtn;
+	}
+
+	std::shared_ptr<Camera> Scene::AddCamera()
+	{
+		std::shared_ptr<Camera> rtn = std::make_shared<Camera>();
+		rtn->self = rtn;
+		rtn->scene = self;
+		activeCamera = rtn;
+		objects.push_back(rtn);
+
+		return rtn;
+	}
+
+	std::shared_ptr<Camera> Scene::GetCamera()
+	{
+		return activeCamera;
+	}
+
+	std::shared_ptr<Input> Scene::AddInput()
+	{
+		std::shared_ptr<Input> rtn = std::make_shared<Input>();
+		input = rtn;
+
+		return rtn;
+	}
+
+	std::shared_ptr<Input> Scene::GetInput()
+	{
+		return input;
+	}
 }

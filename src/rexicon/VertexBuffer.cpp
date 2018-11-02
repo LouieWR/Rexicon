@@ -3,7 +3,7 @@
 namespace rexicon
 {
 
-VertexBuffer::VertexBuffer() : components(0), dirty(false)
+VertexBuffer::VertexBuffer() : modules(0), dirty(false)
 {
   glGenBuffers(1, &id);
 
@@ -15,12 +15,12 @@ VertexBuffer::VertexBuffer() : components(0), dirty(false)
 
 void VertexBuffer::add(glm::vec3 value)
 {
-  if(!components)
+  if(!modules)
   {
-    components = 3;
+    modules = 3;
   }
 
-  if(components != 3)
+  if(modules != 3)
   {
     throw std::exception();
   }
@@ -33,12 +33,12 @@ void VertexBuffer::add(glm::vec3 value)
 
 void VertexBuffer::add(glm::vec4 value)
 {
-  if(!components)
+  if(!modules)
   {
-    components = 4;
+    modules = 4;
   }
 
-  if(components != 4)
+  if(modules != 4)
   {
     throw std::exception();
   }
@@ -55,14 +55,14 @@ int VertexBuffer::getDataSize()
   return data.size();
 }
 
-int VertexBuffer::getComponents()
+int VertexBuffer::getmodules()
 {
-  if(!components)
+  if(!modules)
   {
     throw std::exception();
   }
 
-  return components;
+  return modules;
 }
 
 GLuint VertexBuffer::getId()

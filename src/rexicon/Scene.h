@@ -1,81 +1,40 @@
-#ifndef REXICON_OBJECT_H
-#define REXICON_OBJECT_H
+#ifndef REXICON_SCENE_H
+#define REXICON_SCENE_H
 
 #include <memory>
 #include <vector>
 
-#define ADDCOMPONENT \
-  std::shared_ptr<T> rtn = std::make_shared<T>(); \
-  rtn->entity = self; \
-  rtn->began = false; \
-  components.push_back(rtn);
-
 namespace rexicon
 {
+	class Object;
+	class Core;
+	class Camera;
+	class Input;
 
-class Core;
-class Module;
-
-class Object
-{
-	friend class Core;
-
-private:
-
-	std::weak_ptr<Object> self;
-	std::weak_ptr<Core> core;
-	std::vector<std::shared_ptr<Module> > components;
-
-	void tick();
-	void display();
-
-public:
-
-	template <typename T>
-	std::shared_ptr<T> getComponent()
+	class Scene
 	{
-		for (size_t i = 0; i < components.size(); i++)
-		{
-			std::shared_ptr<T> tst = std::dynamic_pointer_cast<T>(components.at(i));
+		friend class Core;
 
-			if (tst)
-			{
-				return tst;
-			}
-		}
+	protected:
 
-		throw std::exception();
-	}
+		std::weak_ptr<Scene> self;
+		std::weak_ptr<Core> core;
+		std::shared_ptr<Input> input;
+		std::vector<std::shared_ptr<Object> > objects;
+		std::shared_ptr<Camera> activeCamera;
 
-	template <typename T>
-	std::shared_ptr<T> addComponent()
-	{
-		ADDCOMPONENT
-			rtn->onInit();
-			return rtn;
-	}
+	public:
 
-	template <typename T, typename A>
-	std::shared_ptr<T> addComponent(A a)
-	{
-		ADDCOMPONENT
-			rtn->onInit(a);
+		void Update();
+		void Draw();
 
-		return rtn;
-	}
+		std::shared_ptr<Object> AddObject();
+		std::shared_ptr<Camera> AddCamera();
+		std::shared_ptr<Camera> GetCamera();
+		std::shared_ptr<Input> AddInput();
+		std::shared_ptr<Input> GetInput();
 
-	template <typename T, typename A, typename B>
-	std::shared_ptr<T> addComponent(A a, B b)
-	{
-		ADDCOMPONENT
-			rtn->onInit(a, b);
-
-		return rtn;
-	}
-
-	std::shared_ptr<Core> getCore();
-
-};
+	};
 
 }
 

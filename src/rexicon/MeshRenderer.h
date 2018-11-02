@@ -11,10 +11,10 @@ class ShaderProgram;
 class MeshRenderer : public Module
 {
 public:
-  void onInit();
+  void OnInit();
 
 private:
-  void onDisplay();
+  void OnDisplay();
 
   std::shared_ptr<VertexArray> shape;
   std::shared_ptr<ShaderProgram> shader;

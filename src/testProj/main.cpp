@@ -5,36 +5,36 @@
 class TestScreen : public rexicon::Module
 {
 public:
-	void onInit(std::string color)
+	virtual void OnInit(std::string color)
 	{
-		//std::cout << "onInit " << color << std::endl;
-	}
 
-	void onBegin()
-	{
-		//std::cout << "onBegin" << std::endl;
 	}
-
-	void onTick()
+	virtual void OnBegin()
 	{
-		//std::cout << "onTick" << std::endl;
+
 	}
-
-	void onDisplay()
+	virtual void OnTick()
 	{
-		//std::cout << "onTick" << std::endl;
+
+	}
+	virtual void OnDisplay()
+	{
+
 	}
 };
 
 int main()
 {
 	std::shared_ptr<rexicon::Core> c = rexicon::Core::initialise();
+	std::shared_ptr<rexicon::Scene> s = c->AddScene();
+	std::shared_ptr<rexicon::Object> o = s->AddObject();
+	std::shared_ptr<rexicon::Transform> otr = o->AddModule<rexicon::Transform>();
+	std::shared_ptr<rexicon::Camera> cam = s->AddCamera();
+	std::shared_ptr<rexicon::Transform> tr = cam->AddModule<rexicon::Transform>();
 
-	std::shared_ptr<rexicon::Object> e = c->AddObject();
-
-	std::shared_ptr<TestScreen> ts = e->addComponent<TestScreen>("Green");
-	std::shared_ptr<rexicon::MeshRenderer> mr = e->addComponent<rexicon::MeshRenderer>();
-	std::shared_ptr<rexicon::MeshRenderer> mr2 = e->getComponent<rexicon::MeshRenderer>();
+	std::shared_ptr<TestScreen> ts = o->AddModule<TestScreen>("Green");
+	std::shared_ptr<rexicon::MeshRenderer> mr = o->AddModule<rexicon::MeshRenderer>();
+	std::shared_ptr<rexicon::MeshRenderer> mr2 = o->AddModule<rexicon::MeshRenderer>();
 
 	c->start();
 

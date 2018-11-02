@@ -3,6 +3,9 @@
 
 #include <memory>
 
+//Derived classes
+//#include "Transform.h"
+
 namespace rexicon
 {
 
@@ -15,17 +18,21 @@ class Module
 
 public:
 	virtual ~Module();
-	std::shared_ptr<Core> getCore();
-	std::shared_ptr<Object> getObject();
+	std::shared_ptr<Core> GetCore();
+	std::shared_ptr<Object> GetObject();
 
-private:
-	std::weak_ptr<Object> entity;
+protected:
+	std::weak_ptr<Module> self;
+
+	std::weak_ptr<Object> object;
 	bool began;
 
-	virtual void onInit();
-	virtual void onBegin();
-	virtual void onTick();
-	virtual void onDisplay();
+private:
+
+	virtual void OnInit();
+	virtual void OnBegin();
+	virtual void OnTick();
+	virtual void OnDisplay();
 };
 
 }

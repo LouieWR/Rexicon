@@ -1,79 +1,36 @@
-#ifndef REXICON_OBJECT_H
-#define REXICON_OBJECT_H
+#ifndef REXICON_CAMERA_H
+#define REXICON_CAMERA_H
+
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 #include <memory>
 #include <vector>
 
-#define ADDCOMPONENT \
-  std::shared_ptr<T> rtn = std::make_shared<T>(); \
-  rtn->entity = self; \
-  rtn->began = false; \
-  components.push_back(rtn);
+#include "Object.h"
 
 namespace rexicon
 {
 
-class Core;
-class Module;
-
-class Object
+class Camera : public Object
 {
-	friend class Core;
 
 private:
-
-	std::weak_ptr<Object> self;
-	std::weak_ptr<Core> core;
-	std::vector<std::shared_ptr<Module> > components;
-
-	void tick();
-	void display();
+	float fov = 45.0f;
+	float aspect = 2.0f;
+	float near = 0.1f;
+	float far = 1000.0f;
 
 public:
 
-	template <typename T>
-	std::shared_ptr<T> getComponent()
-	{
-		for (size_t i = 0; i < components.size(); i++)
-		{
-			std::shared_ptr<T> tst = std::dynamic_pointer_cast<T>(components.at(i));
+	void Update();
+	void Draw();
 
-			if (tst)
-			{
-				return tst;
-			}
-		}
-
-		throw std::exception();
-	}
-
-	template <typename T>
-	std::shared_ptr<T> addComponent()
-	{
-		ADDCOMPONENT
-			rtn->onInit();
-			return rtn;
-	}
-
-	template <typename T, typename A>
-	std::shared_ptr<T> addComponent(A a)
-	{
-		ADDCOMPONENT
-			rtn->onInit(a);
-
-		return rtn;
-	}
-
-	template <typename T, typename A, typename B>
-	std::shared_ptr<T> addComponent(A a, B b)
-	{
-		ADDCOMPONENT
-			rtn->onInit(a, b);
-
-		return rtn;
-	}
-
-	std::shared_ptr<Core> getCore();
+	float GetFOV() { return fov; }
+	float GetAspect() { return aspect; }
+	float GetNear() { return near; }
+	float GetFar() { return far; }
 
 };
 

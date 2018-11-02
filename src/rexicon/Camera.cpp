@@ -1,37 +1,19 @@
-#include "Object.h"
-
-#include "Module.h"
+#include "Camera.h"
+#include "Scene.h"
+#include "Input.h"
 
 namespace rexicon
 {
-
-	std::shared_ptr<Core> Object::getCore()
+	void Camera::Update()
 	{
-		return core.lock();
-	}
-
-	void Object::tick()
-	{
-		for (std::vector<std::shared_ptr<Module> >::iterator it = components.begin();
-			it != components.end(); it++)
+		if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_SPACE))
 		{
-			if (!(*it)->began)
-			{
-				(*it)->onBegin();
-				(*it)->began = true;
-			}
-
-			(*it)->onTick();
+			fov += 0.1f;
 		}
 	}
 
-	void Object::display()
+	void Camera::Draw()
 	{
-		for (std::vector<std::shared_ptr<Module> >::iterator it = components.begin();
-			it != components.end(); it++)
-		{
-			(*it)->onDisplay();
-		}
-	}
 
+	}
 }

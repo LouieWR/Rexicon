@@ -9,7 +9,7 @@ namespace rexicon
 class VertexBuffer
 {
   GLuint id;
-  int components;
+  int modules;
   std::vector<GLfloat> data;
   bool dirty;
 
@@ -17,7 +17,7 @@ public:
   VertexBuffer();
   void add(glm::vec3 value);
   void add(glm::vec4 value);
-  int getComponents();
+  int getmodules();
   int getDataSize();
   GLuint getId();
 

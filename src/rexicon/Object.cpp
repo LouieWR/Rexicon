@@ -1,37 +1,63 @@
 #include "Object.h"
 
 #include "Module.h"
+#include "Transform.h"
 
 namespace rexicon
 {
 
-	std::shared_ptr<Core> Object::getCore()
+	void Object::Update()
 	{
-		return core.lock();
-	}
-
-	void Object::tick()
-	{
-		for (std::vector<std::shared_ptr<Module> >::iterator it = components.begin();
-			it != components.end(); it++)
+		for (std::vector<std::shared_ptr<Module> >::iterator it = modules.begin();
+			it != modules.end(); it++)
 		{
 			if (!(*it)->began)
 			{
-				(*it)->onBegin();
+				(*it)->OnBegin();
 				(*it)->began = true;
 			}
 
-			(*it)->onTick();
+			(*it)->OnTick();
 		}
 	}
 
-	void Object::display()
+	void Object::Draw()
 	{
-		for (std::vector<std::shared_ptr<Module> >::iterator it = components.begin();
-			it != components.end(); it++)
+		for (std::vector<std::shared_ptr<Module> >::iterator it = modules.begin();
+			it != modules.end(); it++)
 		{
-			(*it)->onDisplay();
+			(*it)->OnDisplay();
 		}
 	}
 
+	void Object::SetTransformModule()
+	{
+		transform = GetModule<Transform>();
+	}
+
+	template <typename T>
+	std::shared_ptr<T> Object::GetModule()
+	{
+		for (size_t i = 0; i < modules.size(); i++)
+		{
+			std::shared_ptr<T> tst = std::dynamic_pointer_cast<T>(modules.at(i));
+
+			if (tst)
+			{
+				return tst;
+			}
+		}
+
+		throw std::exception();
+	}
+
+	std::shared_ptr<Scene> Object::GetScene()
+	{
+		return scene.lock();
+	}
+
+	std::shared_ptr<Core> Object::GetCore()
+	{
+		return core.lock();
+	}
 }

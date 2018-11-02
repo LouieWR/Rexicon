@@ -10,6 +10,7 @@ namespace rexicon
 {
 
 class Object;
+class Scene;
 
 class Core
 {
@@ -19,14 +20,14 @@ private:
 	SDL_Window *window;
 	ALCdevice* device;
 	ALCcontext* context;
+	std::vector<std::shared_ptr<Scene>> scenes;
 	std::weak_ptr<Core> self;
-	std::vector<std::shared_ptr<Object>> objects;
 
 public:
 	static std::shared_ptr<Core> initialise();
 	void start();
 	void stop();
-	std::shared_ptr<Object> AddObject();
-
+	std::shared_ptr<Scene> AddScene();
+	std::shared_ptr<Scene> GetScene(Uint32 sceneID);
 };
 }

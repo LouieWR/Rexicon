@@ -41,7 +41,7 @@ int VertexArray::getVertexCount()
     throw std::exception();
   }
 
-  return buffers.at(0)->getDataSize() / buffers.at(0)->getComponents();
+  return buffers.at(0)->getDataSize() / buffers.at(0)->getmodules();
 }
 
 GLuint VertexArray::getId()
@@ -56,8 +56,8 @@ GLuint VertexArray::getId()
       {
         glBindBuffer(GL_ARRAY_BUFFER, buffers.at(i)->getId());
 
-        glVertexAttribPointer(i, buffers.at(i)->getComponents(), GL_FLOAT, GL_FALSE,
-          buffers.at(i)->getComponents() * sizeof(GLfloat), (void *)0);
+        glVertexAttribPointer(i, buffers.at(i)->getmodules(), GL_FLOAT, GL_FALSE,
+          buffers.at(i)->getmodules() * sizeof(GLfloat), (void *)0);
 
         glEnableVertexAttribArray(i);
       }

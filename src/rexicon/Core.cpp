@@ -1,5 +1,6 @@
 #include "Core.h"
-#include "Object.h"
+#include "Scene.h"
+#include "Input.h"
 
 #include <GL/glew.h>
 
@@ -67,6 +68,7 @@ namespace rexicon
 
 	void Core::start()
 	{
+
 		running = true;
 
 		while (running)
@@ -82,19 +84,19 @@ namespace rexicon
 			}
 
 
-			for (std::vector<std::shared_ptr<Object> >::iterator it = objects.begin();
-				it != objects.end(); it++)
+			for (std::vector<std::shared_ptr<Scene> >::iterator it = scenes.begin();
+				it != scenes.end(); it++)
 			{
-				(*it)->tick();
+				(*it)->Update();
 			}
 
 			glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			for (std::vector<std::shared_ptr<Object> >::iterator it = objects.begin();
-				it != objects.end(); it++)
+			for (std::vector<std::shared_ptr<Scene> >::iterator it = scenes.begin();
+				it != scenes.end(); it++)
 			{
-				(*it)->display();
+				(*it)->Draw();
 			}
 
 			SDL_GL_SwapWindow(window);
@@ -106,13 +108,15 @@ namespace rexicon
 		running = false;
 	}
 
-	std::shared_ptr<Object> Core::AddObject()
+	std::shared_ptr<Scene> Core::AddScene()
 	{
-		std::shared_ptr<Object> rtn = std::make_shared<Object>();
-		objects.push_back(rtn);
+		std::shared_ptr<Scene> rtn = std::make_shared<Scene>();
+		scenes.push_back(rtn);
 		
 		rtn->self = rtn;
 		rtn->core = self;
+
+		rtn->AddInput();
 
 		return rtn;
 	}
