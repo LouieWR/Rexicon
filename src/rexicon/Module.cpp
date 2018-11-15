@@ -5,20 +5,20 @@
 namespace rexicon
 {
 
-	Module::~Module() { }
-	void Module::OnInit() { }
-	void Module::OnBegin() { }
-	void Module::OnTick() { }
-	void Module::OnDisplay() { }
+Module::~Module() { }
+void Module::OnInit() { }
+void Module::OnBegin() { }
+void Module::OnTick() { }
+void Module::OnDisplay() { }
 
-	std::shared_ptr<Object> Module::GetObject()
-	{
-		return object.lock();
-	}
+std::shared_ptr<Object> Module::GetObject()
+{
+	return object.lock();
+}
 
-	std::shared_ptr<Core> Module::GetCore()
-	{
-		return GetObject()->GetCore();
-	}
+std::shared_ptr<Core> Module::GetCore()
+{
+	return GetObject()->GetCore();
+}
 
 }

@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 namespace rexicon
 {
@@ -14,12 +15,47 @@ class Transform : public Module
 public:
 	void OnInit();
 
+	glm::vec3 GetPosition() { return pos; }
+
+	glm::vec3 GetRotation() { return rot; }
+
+	glm::vec3 GetScale() { return scl; }
+
+	glm::vec3 SetPosition(glm::vec3 _pos)
+	{
+		pos = _pos;
+		return pos;
+	}
+	glm::vec3 SetRotation(glm::vec3 _rot)
+	{
+		rot = _rot;
+		return rot;
+	}
+	glm::vec3 SetScale(glm::vec3 _scl)
+	{
+		scl = _scl;
+		return scl;
+	}
+
+	glm::vec3 Translate(glm::vec3 _pos)
+	{
+		pos += _pos;
+		return pos;
+	}
+
+	glm::vec3 Rotate(glm::vec3 _rot)
+	{
+		rot += _rot;
+		return pos;
+	}
+
+	glm::mat4 GetTransformMat();
+
 private:
 	void OnTick();
-	glm::vec4 pos;// Not done
-	glm::vec4 rot;// Not done
-	glm::vec4 scl;// Not done
-		
+	glm::vec3 pos;
+	glm::vec3 rot;
+	glm::vec3 scl;
 };
 
 }

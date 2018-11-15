@@ -10,6 +10,7 @@
 #include "Object.h"
 #include "Scene.h"
 #include "ShaderProgram.h"
+#include "Texture.h"
 #include "Transform.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"

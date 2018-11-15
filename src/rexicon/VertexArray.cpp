@@ -22,7 +22,7 @@ void VertexArray::setBuffer(std::string attribute, std::weak_ptr<VertexBuffer> b
   {
     buffers.at(0) = buffer.lock();
   }
-  else if(attribute == "in_Color")
+  else if(attribute == "in_UVCoord")
   {
     buffers.at(1) = buffer.lock();
   }

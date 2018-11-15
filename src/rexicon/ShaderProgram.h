@@ -14,7 +14,7 @@ class ShaderProgram
 
 public:
   ShaderProgram(std::string vert, std::string frag);
-  void draw(VertexArray& vertexArray);
+  void draw(VertexArray& vertexArray, unsigned int texID);
   void setUniform(std::string uniform, glm::vec4 value);
   void setUniform(std::string uniform, float value);
   void setUniform(std::string uniform, glm::mat4 value);

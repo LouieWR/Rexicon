@@ -68,8 +68,8 @@ ShaderProgram::ShaderProgram(std::string vert, std::string frag)
   id = glCreateProgram();
   glAttachShader(id, vertexShaderId);
   glAttachShader(id, fragmentShaderId);
-  glBindAttribLocation(id, 0, "in_Pos");
-  glBindAttribLocation(id, 1, "in_Colour");
+  glBindAttribLocation(id, 0, "in_Position");
+  glBindAttribLocation(id, 1, "in_UVCoord");
 
   if(glGetError() != GL_NO_ERROR)
   {
@@ -90,10 +90,15 @@ ShaderProgram::ShaderProgram(std::string vert, std::string frag)
   glDeleteShader(fragmentShaderId);
 }
 
-void ShaderProgram::draw(VertexArray& vertexArray)
+void ShaderProgram::draw(VertexArray& vertexArray, unsigned int _texID)
 {
+  GLint uniformId = glGetUniformLocation(_texID, "in_UVCoord");
   glUseProgram(id);
   glBindVertexArray(vertexArray.getId());
+
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, _texID);
+  glUniform1i(uniformId, 1);
 
   glDrawArrays(GL_TRIANGLES, 0, vertexArray.getVertexCount());
 

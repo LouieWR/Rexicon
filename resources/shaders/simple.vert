@@ -3,12 +3,12 @@ uniform mat4 in_View;
 uniform mat4 in_Model;
 
 attribute vec3 in_Position;
-attribute vec4 in_Color;
+attribute vec2 in_UVCoord;
 
-varying vec4 ex_Color;
+varying vec2 ex_UVCoord;
 
 void main()
 {
   gl_Position = in_Projection * in_View * in_Model * vec4(in_Position, 1.0);
-  ex_Color = in_Color;
+  ex_UVCoord = in_UVCoord;
 }

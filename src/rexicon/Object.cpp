@@ -6,58 +6,59 @@
 namespace rexicon
 {
 
-	void Object::Update()
+void Object::Update()
+{
+	for (std::vector<std::shared_ptr<Module> >::iterator it = modules.begin();
+		it != modules.end(); it++)
 	{
-		for (std::vector<std::shared_ptr<Module> >::iterator it = modules.begin();
-			it != modules.end(); it++)
+		if (!(*it)->began)
 		{
-			if (!(*it)->began)
-			{
-				(*it)->OnBegin();
-				(*it)->began = true;
-			}
+			(*it)->OnBegin();
+			(*it)->began = true;
+		}
 
-			(*it)->OnTick();
+		(*it)->OnTick();
+	}
+}
+
+void Object::Draw()
+{
+	for (std::vector<std::shared_ptr<Module> >::iterator it = modules.begin();
+		it != modules.end(); it++)
+	{
+		(*it)->OnDisplay();
+	}
+}
+
+void Object::SetTransformModule()
+{
+	transform = GetModule<Transform>();
+}
+
+template <typename T>
+std::shared_ptr<T> Object::GetModule()
+{
+	for (size_t i = 0; i < modules.size(); i++)
+	{
+		std::shared_ptr<T> tst = std::dynamic_pointer_cast<T>(modules.at(i));
+
+		if (tst)
+		{
+			return tst;
 		}
 	}
 
-	void Object::Draw()
-	{
-		for (std::vector<std::shared_ptr<Module> >::iterator it = modules.begin();
-			it != modules.end(); it++)
-		{
-			(*it)->OnDisplay();
-		}
-	}
+	throw std::exception();
+}
 
-	void Object::SetTransformModule()
-	{
-		transform = GetModule<Transform>();
-	}
+std::shared_ptr<Scene> Object::GetScene()
+{
+	return scene.lock();
+}
 
-	template <typename T>
-	std::shared_ptr<T> Object::GetModule()
-	{
-		for (size_t i = 0; i < modules.size(); i++)
-		{
-			std::shared_ptr<T> tst = std::dynamic_pointer_cast<T>(modules.at(i));
+std::shared_ptr<Core> Object::GetCore()
+{
+	return core.lock();
+}
 
-			if (tst)
-			{
-				return tst;
-			}
-		}
-
-		throw std::exception();
-	}
-
-	std::shared_ptr<Scene> Object::GetScene()
-	{
-		return scene.lock();
-	}
-
-	std::shared_ptr<Core> Object::GetCore()
-	{
-		return core.lock();
-	}
 }

@@ -17,20 +17,15 @@ class Camera : public Object
 {
 
 private:
-	float fov = 45.0f;
-	float aspect = 2.0f;
-	float near = 0.1f;
-	float far = 1000.0f;
+	glm::mat4 projMat;
 
 public:
 
+	void OnInit();
 	void Update();
 	void Draw();
 
-	float GetFOV() { return fov; }
-	float GetAspect() { return aspect; }
-	float GetNear() { return near; }
-	float GetFar() { return far; }
+	glm::mat4 GetProjection() { return projMat; }
 
 };
 

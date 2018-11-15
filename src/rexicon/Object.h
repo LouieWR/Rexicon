@@ -34,6 +34,7 @@ protected:
 
 public:
 
+	virtual void OnInit() {};
 	virtual void Update();
 	virtual void Draw();
 
