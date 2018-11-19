@@ -36,33 +36,6 @@ std::shared_ptr<Core> Core::initialise() // Lab Code
 		throw std::exception();
 	}
 
-	rtn->device = alcOpenDevice(NULL);
-
-	if (!rtn->device)
-	{
-		throw std::exception();
-	}
-
-	rtn->context = alcCreateContext(rtn->device, NULL);
-
-	if (!rtn->context)
-	{
-		alcCloseDevice(rtn->device);
-		throw std::exception();
-	}
-
-	if (!alcMakeContextCurrent(rtn->context))
-	{
-		alcDestroyContext(rtn->context);
-		alcCloseDevice(rtn->device);
-		throw std::exception();
-	}
-
-	// Remember to close after use
-	//alcMakeContextCurrent(NULL);
-	//alcDestroyContext(context);
-	//alcCloseDevice(device);
-
 	return rtn;
 }
 
@@ -70,6 +43,9 @@ void Core::start()
 {
 
 	running = true;
+
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 
 	while (running)
 	{
@@ -90,8 +66,9 @@ void Core::start()
 			(*it)->Update();
 		}
 
-		glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (std::vector<std::shared_ptr<Scene> >::iterator it = scenes.begin();
 			it != scenes.end(); it++)

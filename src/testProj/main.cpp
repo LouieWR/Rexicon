@@ -33,18 +33,23 @@ public:
 int main()
 {
 	std::shared_ptr<rexicon::Core> c = rexicon::Core::initialise();
+
 	std::shared_ptr<rexicon::Scene> s = c->AddScene();
+
 	std::shared_ptr<rexicon::Object> o = s->AddObject();
 	std::shared_ptr<rexicon::Transform> otr = o->AddModule<rexicon::Transform>();
-	//o->GetTransformModule()->SetPosition(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-	//o->GetTransformModule()->SetScale(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	std::shared_ptr<rexicon::Camera> cam = s->AddCamera();
-	std::shared_ptr<rexicon::Transform> tr = cam->AddModule<rexicon::Transform>();
+	otr->SetPosition(glm::vec3(0, 0, -10.0f));
+	std::shared_ptr<rexicon::MeshRenderer> omr = o->AddModule<rexicon::MeshRenderer>("../resources/objects/Typhoon/eurofighter.obj", "../resources/objects/Typhoon/EurofighterDiffuse.bmp");
 
-	//std::shared_ptr<Rotator> ts = o->AddModule<Rotator>();
-	std::shared_ptr<rexicon::MeshRenderer> mr = o->AddModule<rexicon::MeshRenderer>();
-	std::shared_ptr<rexicon::MeshRenderer> mr2 = o->AddModule<rexicon::MeshRenderer>();
-	 
+	std::shared_ptr<rexicon::Object> o2 = s->AddObject();
+	std::shared_ptr<rexicon::Transform> otr2 = o2->AddModule<rexicon::Transform>();
+	otr2->SetPosition(glm::vec3(5.0f, 0.0f, -5.0f));
+	std::shared_ptr<rexicon::MeshRenderer> omr2 = o2->AddModule<rexicon::MeshRenderer>();
+
+	std::shared_ptr<rexicon::Camera> cam = s->AddCamera();
+	std::shared_ptr<rexicon::Transform> ctr = cam->AddModule<rexicon::Transform>();
+	ctr->SetPosition(glm::vec3(0.0f, 0.0f, 25.0f));
+
 	c->start();
 
 	return 0;

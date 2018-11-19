@@ -17,7 +17,8 @@ class Module
 	friend class Object;
 
 public:
-	virtual ~Module();
+	Module();
+	~Module();
 	std::shared_ptr<Core> GetCore();
 	std::shared_ptr<Object> GetObject();
 

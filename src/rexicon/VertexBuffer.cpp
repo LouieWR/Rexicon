@@ -3,79 +3,95 @@
 namespace rexicon
 {
 
-VertexBuffer::VertexBuffer() : modules(0), dirty(false)
-{
-  glGenBuffers(1, &id);
+	VertexBuffer::VertexBuffer() : components(0), dirty(false)
+	{
+		glGenBuffers(1, &id);
 
-  if(!id)
-  {
-    throw std::exception();
-  }
-}
+		if (!id)
+		{
+			throw std::exception();
+		}
+	}
 
-void VertexBuffer::add(glm::vec3 value)
-{
-  if(!modules)
-  {
-    modules = 3;
-  }
+	void VertexBuffer::add(glm::vec2 value)
+	{
+		if (!components)
+		{
+			components = 2;
+		}
 
-  if(modules != 3)
-  {
-    throw std::exception();
-  }
+		if (components != 2)
+		{
+			throw std::exception();
+		}
 
-  data.push_back(value.x);
-  data.push_back(value.y);
-  data.push_back(value.z);
-  dirty = true;
-}
+		data.push_back(value.x);
+		data.push_back(value.y);
+		dirty = true;
+	}
 
-void VertexBuffer::add(glm::vec4 value)
-{
-  if(!modules)
-  {
-    modules = 4;
-  }
+	void VertexBuffer::add(glm::vec3 value)
+	{
+		if (!components)
+		{
+			components = 3;
+		}
 
-  if(modules != 4)
-  {
-    throw std::exception();
-  }
+		if (components != 3)
+		{
+			throw std::exception();
+		}
 
-  data.push_back(value.x);
-  data.push_back(value.y);
-  data.push_back(value.z);
-  data.push_back(value.w);
-  dirty = true;
-}
+		data.push_back(value.x);
+		data.push_back(value.y);
+		data.push_back(value.z);
+		dirty = true;
+	}
 
-int VertexBuffer::getDataSize()
-{
-  return data.size();
-}
+	void VertexBuffer::add(glm::vec4 value)
+	{
+		if (!components)
+		{
+			components = 4;
+		}
 
-int VertexBuffer::getmodules()
-{
-  if(!modules)
-  {
-    throw std::exception();
-  }
+		if (components != 4)
+		{
+			throw std::exception();
+		}
 
-  return modules;
-}
+		data.push_back(value.x);
+		data.push_back(value.y);
+		data.push_back(value.z);
+		data.push_back(value.w);
+		dirty = true;
+	}
 
-GLuint VertexBuffer::getId()
-{
-  if(dirty)
-  {
-    glBindBuffer(GL_ARRAY_BUFFER, id);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * data.size(), &data.at(0), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    dirty = false;
-  }
+	int VertexBuffer::getDataSize()
+	{
+		return data.size();
+	}
 
-  return id;
-}
+	int VertexBuffer::getComponents()
+	{
+		if (!components)
+		{
+			throw std::exception();
+		}
 
+		return components;
+	}
+
+	GLuint VertexBuffer::getId()
+	{
+		if (dirty)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, id);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * data.size(), &data.at(0), GL_STATIC_DRAW);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			dirty = false;
+		}
+
+		return id;
+	}
 }

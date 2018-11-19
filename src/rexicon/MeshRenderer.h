@@ -8,42 +8,34 @@
 
 namespace rexicon
 {
-	class VertexArray;
-	class VertexBuffer;
-	class ShaderProgram;
-	class Texture;
+class VertexArray;
+class VertexBuffer;
+class ShaderProgram;
+class Texture;
 
-	class MeshRenderer : public Module
-	{
-	public:
-		void OnInit();
-		void OnDisplay();
+class MeshRenderer : public Module
+{
+public:
+	MeshRenderer();
+	~MeshRenderer();
 
-		void LoadOBJ(const std::string _file);
+	void OnInit();
+	void OnInit(std::string _modelPath);
+	void OnInit(std::string _modelPath, std::string _texturePath);
 
-	private:
-		template <typename T>
-		T ParseOBJ(std::string _line);
-		void MakeFaceOBJ(std::string _line);
+	void OnDisplay();
 
-		std::vector<glm::vec3> rawUVData;
-		std::vector<glm::vec3> rawPosData;
-		std::vector<glm::vec3> rawNmlData;
+private:
+	std::shared_ptr<VertexArray> shape;
 
-		std::shared_ptr<VertexBuffer> modelUVData = std::make_shared<VertexBuffer>();
-		std::shared_ptr<VertexBuffer> modelPosData = std::make_shared<VertexBuffer>();;
-		std::shared_ptr<VertexBuffer> modelNmlData = std::make_shared<VertexBuffer>();;
+	std::shared_ptr<Texture> texture;
+	unsigned int texID;
 
-		std::shared_ptr<VertexArray> shape;
+	unsigned int VAO;
 
-		std::shared_ptr<Texture> texture;
-		unsigned int texID;
+	unsigned int numVtxs = 0;
 
-		unsigned int VAO;
-
-		unsigned int numVtxs = 0;
-
-		std::shared_ptr<ShaderProgram> shader;	
-	};
+	std::shared_ptr<ShaderProgram> shader;	
+};
 
 }

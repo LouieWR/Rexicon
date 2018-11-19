@@ -1,15 +1,19 @@
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+
 #include <string>
 
 namespace rexicon
 {
-
 	class Texture
 	{
+		GLuint id;
+		glm::vec2 size;
+
 	public:
-		unsigned int LoadTexture(std::string _filename);
-	private:
-		unsigned int texID;
+		Texture(std::string path);
+		glm::vec2 getSize();
+		GLuint getId();
 
 	};
-
 }

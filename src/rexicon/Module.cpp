@@ -4,7 +4,7 @@
 
 namespace rexicon
 {
-
+Module::Module() { }
 Module::~Module() { }
 void Module::OnInit() { }
 void Module::OnBegin() { }

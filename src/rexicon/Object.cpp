@@ -2,6 +2,9 @@
 
 #include "Module.h"
 #include "Transform.h"
+#include "Scene.h"
+
+#include "SDL2/SDL.h"
 
 namespace rexicon
 {

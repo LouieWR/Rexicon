@@ -19,6 +19,16 @@ class Camera : public Object
 private:
 	glm::mat4 projMat;
 
+	glm::vec3 offset = glm::vec3(0, 0, 1.0f);
+
+	enum CamType { basic, first, follow };
+	CamType camType = follow;
+
+	glm::mat4 viewMat;
+	glm::vec3 front;
+	glm::vec3 right;
+	glm::vec3 up;
+
 public:
 
 	void OnInit();
@@ -26,6 +36,7 @@ public:
 	void Draw();
 
 	glm::mat4 GetProjection() { return projMat; }
+	glm::mat4 GetViewMat();
 
 };
 

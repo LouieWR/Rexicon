@@ -1,36 +1,49 @@
 #include "Texture.h"
-#include <iostream>
-#include <fstream>
-#include <SDL2/SDL.h>
-#include <gl/glew.h>
+
+#include <stb_image/stb_image.h>
 
 namespace rexicon
 {
-	unsigned int Texture::LoadTexture(std::string _filename)
+	Texture::Texture(std::string path)
 	{
-		// Load SDL surface
-		SDL_Surface *image = SDL_LoadBMP(_filename.c_str());
+		int w = 0;
+		int h = 0;
+		int channels = 0;
 
-		if (!image) // Check it worked
-		{
-			throw std::exception();
-			std::cout << "Could not load texture" << std::endl;
-		}
+		unsigned char *data = stbi_load(path.c_str(), &w, &h, &channels, 4);
 
-		texID = 0;
-		glGenTextures(1, &texID);
-
-		if (!texID)
+		if (!data)
 		{
 			throw std::exception();
 		}
 
-		glBindTexture(GL_TEXTURE_2D, texID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->w, image->h, 0, GL_BGR, GL_UNSIGNED_BYTE, image->pixels);
+		size.x = w;
+		size.y = h;
+
+		glGenTextures(1, &id);
+
+		if (!id)
+		{
+			throw std::exception();
+		}
+
+		glBindTexture(GL_TEXTURE_2D, id);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		free(data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, 0);
 
-		SDL_FreeSurface(image);
-		return texID;
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+
+	glm::vec2 Texture::getSize()
+	{
+		return size;
+	}
+
+	GLuint Texture::getId()
+	{
+		return id;
+	}
+
 }

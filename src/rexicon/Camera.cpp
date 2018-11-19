@@ -3,46 +3,51 @@
 #include "Input.h"
 #include "Transform.h"
 
+#include <cmath>
+
 namespace rexicon
 {
 void Camera::OnInit()
 {
-	projMat = glm::perspective(45.0f, 2.0f, 0.1f, 10000.0f);
-	AddModule<rexicon::Transform>();
-	transform->SetPosition(glm::vec4(0, 0, -10.0f, 1));
+	projMat = glm::perspective(glm::radians(65.0f), 2.0f, 0.1f, 100.0f);
 }
 
 void Camera::Update()
 {
-	if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_W))
+	switch (camType)
 	{
-		transform->Translate(glm::vec4(0, 0, 0.1f, 0));
-	}
-	if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_S))
+	case CamType(basic): // Default type, not really meant to be used for more than testing
 	{
-		transform->Translate(glm::vec4(0, 0, -0.1f, 0));
+		viewMat = glm::mat4(1.0f); // We set the camera type to the identity matrix in this case because the user hasn't set a proper camera type.
 	}
-	if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_A))
+	case CamType(first): // First person camera type
 	{
-		transform->Translate(glm::vec4(0.1f, 0, 0, 0));
-	}
-	if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_D))
-	{
-		transform->Translate(glm::vec4(-0.1f, 0, 0, 0));
-	}
 
-	if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_LEFT))
-	{
-		transform->Rotate(glm::vec3(0, -0.1f, 0));
 	}
-	if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_RIGHT))
+	case CamType(follow): // Follows a specific point with an offset and potential for smoothing
 	{
-		transform->Rotate(glm::vec3(0, 0.1f, 0));
+		if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_1))
+		{
+			transform->Rotate(glm::vec3(0.0f, 5.0f, 0.0f));
+		}
+		if (GetScene()->GetInput()->CheckKey(SDL_SCANCODE_2))
+		{
+			transform->Rotate(glm::vec3(0.0f, -5.0f, 0.0f));
+		}
+		
 	}
+	}
+	
 }
 
 void Camera::Draw()
 {
 
+}
+
+glm::mat4 Camera::GetViewMat()
+{
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	return viewMat;
 }
 }
