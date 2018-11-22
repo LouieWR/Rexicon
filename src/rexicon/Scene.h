@@ -10,6 +10,7 @@ namespace rexicon
 	class Core;
 	class Camera;
 	class Input;
+	class Collider;
 
 	class Scene
 	{
@@ -21,6 +22,7 @@ namespace rexicon
 		std::weak_ptr<Core> core;
 		std::shared_ptr<Input> input;
 		std::vector<std::shared_ptr<Object> > objects;
+		std::vector<std::shared_ptr<Collider> > colliders;
 		std::shared_ptr<Camera> activeCamera;
 
 	public:
@@ -32,7 +34,9 @@ namespace rexicon
 		std::shared_ptr<Camera> AddCamera();
 		std::shared_ptr<Camera> GetCamera();
 		std::shared_ptr<Input> AddInput();
-		std::shared_ptr<Input> GetInput();
+		std::shared_ptr<Input> GetInput() { return input; }
+		void AddCollider(std::shared_ptr<Collider> _collider);
+		std::vector<std::shared_ptr<Collider>> GetColliders() { return colliders; }
 
 	};
 

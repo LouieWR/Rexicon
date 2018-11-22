@@ -2,6 +2,7 @@
 
 #include "Module.h"
 #include "Transform.h"
+#include "Collider.h"
 #include "Scene.h"
 
 #include "SDL2/SDL.h"
@@ -36,6 +37,12 @@ void Object::Draw()
 void Object::SetTransformModule()
 {
 	transform = GetModule<Transform>();
+}
+
+void Object::SetColliderModule()
+{
+	collider = GetModule<Collider>();
+	GetScene()->AddCollider(collider);
 }
 
 template <typename T>

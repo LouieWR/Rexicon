@@ -46,6 +46,7 @@ void Core::start()
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+	glShadeModel(GL_SMOOTH);
 
 	while (running)
 	{
@@ -67,7 +68,7 @@ void Core::start()
 		}
 
 		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.75f, 0.75f, 0.75f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (std::vector<std::shared_ptr<Scene> >::iterator it = scenes.begin();

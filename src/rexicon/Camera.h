@@ -22,12 +22,17 @@ private:
 	glm::vec3 offset = glm::vec3(0, 0, 1.0f);
 
 	enum CamType { basic, first, follow };
-	CamType camType = follow;
+	CamType camType = first;
 
 	glm::mat4 viewMat;
+	glm::mat4 direction;
 	glm::vec3 front;
 	glm::vec3 right;
 	glm::vec3 up;
+
+	glm::mat4 FindDirection();
+	glm::vec3 FindFront();
+	glm::vec3 FindRight();
 
 public:
 

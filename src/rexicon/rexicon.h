@@ -3,6 +3,7 @@
 
 // Put an include file for all header files into this file, and then include rexicon.h to include all the aforementioned files
 #include "Camera.h"
+#include "Collider.h"
 #include "Core.h"
 #include "Input.h"
 #include "MeshRenderer.h"

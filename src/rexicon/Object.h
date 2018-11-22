@@ -19,6 +19,7 @@ class Core;
 class Scene;
 class Module;
 class Transform;
+class Collider;
 
 class Object
 {
@@ -31,6 +32,7 @@ protected:
 	std::weak_ptr<Scene> scene;
 	std::vector<std::shared_ptr<Module> > modules;
 	std::shared_ptr<Transform> transform;
+	std::shared_ptr<Collider> collider;
 
 public:
 
@@ -40,6 +42,8 @@ public:
 
 	void SetTransformModule();
 	std::shared_ptr<Transform> GetTransformModule() { return transform; }
+	void SetColliderModule();
+	std::shared_ptr<Collider> GetColliderModule() { return collider; }
 
 	template <typename T>
 	std::shared_ptr<T> GetModule();

@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "Camera.h"
 #include "Input.h"
+#include "Collider.h"
 
 namespace rexicon
 {
@@ -61,9 +62,9 @@ std::shared_ptr<Input> Scene::AddInput()
 	return rtn;
 }
 
-std::shared_ptr<Input> Scene::GetInput()
+void Scene::AddCollider(std::shared_ptr<Collider> _collider)
 {
-	return input;
+	colliders.push_back(_collider);
 }
 
 }

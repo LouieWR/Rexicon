@@ -55,7 +55,7 @@ void MeshRenderer::OnDisplay()
 		if (camera) // If there is a camera (There probably should be but you never know what the user wants, maybe the default viewing matrix is enough)
 		{
 			projMat = camera->GetProjection(); // We grab the projection matrix from the camera object.
-			viewMat = camera->GetTransformModule()->GetTransformMat();
+			viewMat = camera->GetViewMat();
 		}
 		else
 		{
@@ -69,6 +69,10 @@ void MeshRenderer::OnDisplay()
 		shader->setUniform("in_Model", modelMat); // Now we are ready to pass items into the vertex shader. First we get the matrix from the model, the model matrix.		
 
 		shader->setUniform("in_Texture", texture.get());
+
+		shader->setUniform("in_Light.pos", glm::vec4(0.0f, 10.0f, 0.0f, 1.0f)); // TEMP
+		shader->setUniform("in_Light.col", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		shader->setUniform("in_Ambience", glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
 
 		if (!shape)
 		{

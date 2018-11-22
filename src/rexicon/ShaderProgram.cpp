@@ -137,6 +137,19 @@ namespace rexicon
 		glUniform4f(uniformId, value.x, value.y, value.z, value.w);
 		glUseProgram(0);
 	}
+	void ShaderProgram::setUniform(std::string uniform, glm::vec3 value)
+	{
+		GLint uniformId = glGetUniformLocation(id, uniform.c_str());
+
+		if (uniformId == -1)
+		{
+			throw std::exception();
+		}
+
+		glUseProgram(id);
+		glUniform3f(uniformId, value.x, value.y, value.z);
+		glUseProgram(0);
+	}
 
 	void ShaderProgram::setUniform(std::string uniform, float value)
 	{
